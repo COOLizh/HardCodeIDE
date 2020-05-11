@@ -27,7 +27,6 @@ void CodeEditor::RecieveFolderPath(QString dir)
     parentPath = folderPath;
     currentDir->setPath(folderPath);
     addTreeRoot(currentDir->dirName());
-    QString text;
     while (it.hasNext()) {
         if(it.fileName() == ".." || it.fileName().isEmpty() || it.fileName() == ".")
         {
@@ -43,6 +42,7 @@ void CodeEditor::addTreeRoot(QString name)
 {
     QTreeWidgetItem *treeItem = new QTreeWidgetItem(ui->treeWidget);
     treeItem->setText(0, name);
+    treeItem->setIcon(0, QPixmap("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/folder.png"));
     parent = treeItem;
 }
 
@@ -50,6 +50,23 @@ void CodeEditor::addTreeChild(QString name, QString currentPath)
 {
     QTreeWidgetItem *treeItem = new QTreeWidgetItem();
     treeItem->setText(0, name);
+    switch (checkFileType(name)) {
+    case 0:
+        treeItem->setIcon(0, QPixmap("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/go.jpg"));
+        break;
+    case 1:
+        treeItem->setIcon(0, QPixmap("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/plus.png"));
+        break;
+    default:
+        if(name.contains('.'))
+        {
+            treeItem->setIcon(0, QPixmap("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/file.png"));
+        }
+        else
+        {
+            treeItem->setIcon(0, QPixmap("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/folder.png"));
+        }
+    }
     if(!isChild(currentPath))
     {
         int dirsBack = createParentOfParentPath(currentPath);
@@ -89,5 +106,15 @@ int CodeEditor::createParentOfParentPath(QString currentPath)
     tmp.remove(tmp.length() - 1, 1);
     parentPath = tmp;
     return dirsBack;
+}
+
+int CodeEditor::checkFileType(QString name)
+{
+    int l = name.length();
+    if(l > 3 && name[l - 1] == 'o' && name[l - 2] == 'g' && name[l - 3] == '.')
+        return 0;
+    if(l > 4 && name[l - 1] == 'p' && name[l - 2] == 'p' && name[l - 3] == 'c' && name[l - 4] == '.')
+        return 1;
+    return 2;
 }
 

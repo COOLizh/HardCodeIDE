@@ -28,6 +28,7 @@ private:
     void addTreeChild(QString name, QString currentPath);
     bool isChild(QString currentPath);
     int createParentOfParentPath(QString currentPath);
+    int checkFileType(QString name);
 };
 
 #endif // CODEEDITOR_H

@@ -25,10 +25,11 @@ private:
     QString folderPath, parentPath;
     QTreeWidgetItem *parent;
     void addTreeRoot(QString name);
-    void addTreeChild(QString name, QString currentPath);
+    void addTreeChild(QString name, QString currentPath, bool isDir);
     bool isChild(QString currentPath);
     int createParentOfParentPath(QString currentPath);
     int checkFileType(QString name);
+    void createDirTree(QString dir);
 };
 
 #endif // CODEEDITOR_H

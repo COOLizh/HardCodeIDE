@@ -1,8 +1,8 @@
 #include "codeeditor.h"
 #include "ui_codeeditor.h"
-#include <QTextStream>
-QTextStream cout(stdout);
-QTextStream cin(stdin);
+//#include <QTextStream>
+//QTextStream cout(stdout);
+//QTextStream cin(stdin);
 
 
 CodeEditor::CodeEditor(QWidget *parent) :
@@ -13,6 +13,16 @@ CodeEditor::CodeEditor(QWidget *parent) :
     QIcon icon = QIcon("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/icon.png");
     this->setWindowIcon(icon);
     this->setWindowTitle("HardCodeIDE");
+
+    completingTextEdit = new TextEdit(this);
+    completer = new QCompleter(this);
+    completer->setModel(modelFromFile("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/cppkeywords.txt"));
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setWrapAround(false);
+    completingTextEdit->setCompleter(completer);
+    completingTextEdit->setGeometry(0, 0, 600, 600);
+
 
     QIcon::setThemeName(QStringLiteral("oxygen"));
     console = new QTermWidget(0, this);
@@ -38,6 +48,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     font.setWeight(50);
     ui->textEdit->setFont(font);
     ui->textEdit->setStyleSheet(QStringLiteral("font: 12pt \"Nyala\";"));
+
 }
 
 CodeEditor::~CodeEditor()
@@ -169,4 +180,27 @@ void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
     highlighter = new Highlighter(ui->textEdit->document());
     if (file.open(QFile::ReadOnly | QFile::Text))
         ui->textEdit->setPlainText(file.readAll());
+}
+
+QAbstractItemModel *CodeEditor::modelFromFile(const QString& fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly))
+        return new QStringListModel(completer);
+
+#ifndef QT_NO_CURSOR
+    QGuiApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+#endif
+    QStringList words;
+
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        if (!line.isEmpty())
+            words << QString::fromUtf8(line.trimmed());
+    }
+
+#ifndef QT_NO_CURSOR
+    QGuiApplication::restoreOverrideCursor();
+#endif
+    return new QStringListModel(words, completer);
 }

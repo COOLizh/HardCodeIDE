@@ -19,12 +19,14 @@ SOURCES += \
     codeeditor.cpp \
     highlighter.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    textedit.cpp
 
 HEADERS += \
     codeeditor.h \
     highlighter.h \
-    mainwindow.h
+    mainwindow.h \
+    textedit.h
 
 FORMS += \
     codeeditor.ui \

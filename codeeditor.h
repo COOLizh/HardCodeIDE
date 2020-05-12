@@ -7,6 +7,9 @@
 #include <qtermwidget5/qtermwidget.h>
 #include <QFile>
 #include "highlighter.h"
+#include "textedit.h"
+#include <QAbstractItemModel>
+#include <QStringListModel>
 
 namespace Ui {
 class CodeEditor;
@@ -31,6 +34,7 @@ private:
     QString folderPath, parentPath;
     QTreeWidgetItem *parent;
     QTermWidget *console;
+    QAbstractItemModel *modelFromFile(const QString& fileName);
     void addTreeRoot(QString name);
     void addTreeChild(QString name, QString currentPath, bool isDir);
     bool isChild(QString currentPath);
@@ -38,6 +42,8 @@ private:
     int checkFileType(QString name);
     void createDirTree(QString dir);
     Highlighter *highlighter;
+    QCompleter *completer = nullptr;
+    TextEdit *completingTextEdit;
 };
 
 #endif // CODEEDITOR_H

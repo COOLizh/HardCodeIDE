@@ -25,6 +25,7 @@ private:
     Ui::CodeEditor *ui;
     QString folderPath, parentPath;
     QTreeWidgetItem *parent;
+    QTermWidget *console;
     void addTreeRoot(QString name);
     void addTreeChild(QString name, QString currentPath, bool isDir);
     bool isChild(QString currentPath);

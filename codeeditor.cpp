@@ -10,22 +10,11 @@ CodeEditor::CodeEditor(QWidget *parent) :
     this->setWindowIcon(icon);
     this->setWindowTitle("HardCodeIDE");
     QIcon::setThemeName(QStringLiteral("oxygen"));
-
-    QTermWidget *console = new QTermWidget(1, this);
-
+    console = new QTermWidget(0, this);
     QFont font = QApplication::font();
-#ifdef Q_OS_MACOS
-    font.setFamily(QStringLiteral("Monaco"));
-#elif defined(Q_WS_QWS)
-    font.setFamily(QStringLiteral("fixed"));
-#else
     font.setFamily(QStringLiteral("Monospace"));
-#endif
     font.setPointSize(12);
-
     console->setTerminalFont(font);
-
-   // console->setColorScheme(COLOR_SCHEME_BLACK_ON_LIGHT_YELLOW);
     console->setScrollBarPosition(QTermWidget::ScrollBarRight);
 
     const auto arguments = QApplication::arguments();
@@ -36,8 +25,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
         if (console->availableKeyBindings().contains(arg))
             console->setKeyBindings(arg);
     }
-    console->resize(600, 600);
-    console->setGeometry(0, 542, 1010, 681);
+    console->setGeometry(0, 812, 1920, 1080);
 }
 
 CodeEditor::~CodeEditor()
@@ -48,6 +36,8 @@ CodeEditor::~CodeEditor()
 void CodeEditor::RecieveFolderPath(QString dir)
 {
     folderPath = dir;
+    console->setWorkingDirectory(folderPath);
+    console->startShellProgram();
     createDirTree(folderPath);
 }
 
@@ -70,7 +60,7 @@ void CodeEditor::createDirTree(QString dir)
         addTreeChild(it.fileName(),it.filePath(), it.fileInfo().isDir());
         it.next();
     }
-    //ui->horizontalLayout->addWidget(ui->treeWidget);
+
 }
 
 void CodeEditor::addTreeRoot(QString name)

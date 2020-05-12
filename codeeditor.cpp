@@ -1,5 +1,9 @@
 #include "codeeditor.h"
 #include "ui_codeeditor.h"
+#include <QTextStream>
+QTextStream cout(stdout);
+QTextStream cin(stdin);
+
 
 CodeEditor::CodeEditor(QWidget *parent) :
     QWidget(parent),
@@ -60,15 +64,11 @@ void CodeEditor::createDirTree(QString dir)
     currentDir->setPath(dir);
     addTreeRoot(currentDir->dirName());
     while (it.hasNext()) {
-        if(it.fileName() == ".." || it.fileName().isEmpty() || it.fileName() == ".")
-        {
-            it.next();
-            continue;
-        }
-        addTreeChild(it.fileName(),it.filePath(), it.fileInfo().isDir());
         it.next();
+        if(it.fileName() == ".." || it.fileName() == ".")
+            continue;
+        addTreeChild(it.fileName(),it.filePath(), it.fileInfo().isDir());
     }
-
 }
 
 void CodeEditor::addTreeRoot(QString name)

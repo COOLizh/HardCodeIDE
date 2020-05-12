@@ -142,3 +142,25 @@ int CodeEditor::checkFileType(QString name)
     return 2;
 }
 
+
+void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    QString pathToSelectedItem = item->text(column);
+    pathToSelectedItem = "/" + pathToSelectedItem;
+    while(item->parent() != nullptr)
+    {
+        item = item->parent();
+        if(item->parent() == nullptr)
+            break;
+        pathToSelectedItem = item->text(column) + pathToSelectedItem;
+        pathToSelectedItem = "/" + pathToSelectedItem;
+    }
+    pathToSelectedItem = folderPath + pathToSelectedItem;
+    QFile file(pathToSelectedItem);
+    QByteArray data;
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+    data = file.readAll();
+    QString fileText = QString(data);
+    ui->textEdit->setText(fileText);
+}

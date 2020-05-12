@@ -5,6 +5,7 @@
 #include <QDirIterator>
 #include <QTreeWidget>
 #include <qtermwidget5/qtermwidget.h>
+#include <QFile>
 
 namespace Ui {
 class CodeEditor;
@@ -20,6 +21,9 @@ public:
 
 public slots:
     void RecieveFolderPath(QString dir);
+
+private slots:
+    void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::CodeEditor *ui;

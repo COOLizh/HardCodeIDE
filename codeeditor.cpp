@@ -9,6 +9,35 @@ CodeEditor::CodeEditor(QWidget *parent) :
     QIcon icon = QIcon("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/icon.png");
     this->setWindowIcon(icon);
     this->setWindowTitle("HardCodeIDE");
+    QIcon::setThemeName(QStringLiteral("oxygen"));
+
+    QTermWidget *console = new QTermWidget(1, this);
+
+    QFont font = QApplication::font();
+#ifdef Q_OS_MACOS
+    font.setFamily(QStringLiteral("Monaco"));
+#elif defined(Q_WS_QWS)
+    font.setFamily(QStringLiteral("fixed"));
+#else
+    font.setFamily(QStringLiteral("Monospace"));
+#endif
+    font.setPointSize(12);
+
+    console->setTerminalFont(font);
+
+   // console->setColorScheme(COLOR_SCHEME_BLACK_ON_LIGHT_YELLOW);
+    console->setScrollBarPosition(QTermWidget::ScrollBarRight);
+
+    const auto arguments = QApplication::arguments();
+    for (const QString& arg : arguments)
+    {
+        if (console->availableColorSchemes().contains(arg))
+            console->setColorScheme(arg);
+        if (console->availableKeyBindings().contains(arg))
+            console->setKeyBindings(arg);
+    }
+    console->resize(600, 600);
+    console->setGeometry(0, 542, 1010, 681);
 }
 
 CodeEditor::~CodeEditor()
@@ -41,6 +70,7 @@ void CodeEditor::createDirTree(QString dir)
         addTreeChild(it.fileName(),it.filePath(), it.fileInfo().isDir());
         it.next();
     }
+    //ui->horizontalLayout->addWidget(ui->treeWidget);
 }
 
 void CodeEditor::addTreeRoot(QString name)
@@ -96,7 +126,7 @@ bool CodeEditor::isChild(QString currentPath)
 int CodeEditor::createParentOfParentPath(QString currentPath)
 {
     QString tmp;
-    int dirsBack = 0;
+    int dirsBack = 1;
     for(int i = 0; i < parentPath.length(); i++)
     {
         if(currentPath[i] != parentPath[i])
@@ -110,7 +140,6 @@ int CodeEditor::createParentOfParentPath(QString currentPath)
     }
     tmp.remove(tmp.length() - 1, 1);
     parentPath = tmp;
-    dirsBack++;
     return dirsBack;
 }
 

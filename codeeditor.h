@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QDirIterator>
 #include <QTreeWidget>
+#include <qtermwidget5/qtermwidget.h>
 
 namespace Ui {
 class CodeEditor;

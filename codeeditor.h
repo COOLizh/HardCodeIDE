@@ -6,6 +6,7 @@
 #include <QTreeWidget>
 #include <qtermwidget5/qtermwidget.h>
 #include <QFile>
+#include "highlighter.h"
 
 namespace Ui {
 class CodeEditor;
@@ -36,6 +37,7 @@ private:
     int createParentOfParentPath(QString currentPath);
     int checkFileType(QString name);
     void createDirTree(QString dir);
+    Highlighter *highlighter;
 };
 
 #endif // CODEEDITOR_H

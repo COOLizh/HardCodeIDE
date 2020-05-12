@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     codeeditor.cpp \
+    highlighter.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     codeeditor.h \
+    highlighter.h \
     mainwindow.h
 
 FORMS += \

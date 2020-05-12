@@ -9,6 +9,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     QIcon icon = QIcon("/home/vladislav/Рабочий стол/CourseWork/HardCodeIDE/icon.png");
     this->setWindowIcon(icon);
     this->setWindowTitle("HardCodeIDE");
+
     QIcon::setThemeName(QStringLiteral("oxygen"));
     console = new QTermWidget(0, this);
     QFont font = QApplication::font();
@@ -16,7 +17,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
     font.setPointSize(12);
     console->setTerminalFont(font);
     console->setScrollBarPosition(QTermWidget::ScrollBarRight);
-
     const auto arguments = QApplication::arguments();
     for (const QString& arg : arguments)
     {
@@ -26,6 +26,14 @@ CodeEditor::CodeEditor(QWidget *parent) :
             console->setKeyBindings(arg);
     }
     console->setGeometry(0, 812, 1920, 1080);
+
+    font.setFamily(QStringLiteral("Nyala"));
+    font.setPointSize(15);
+    font.setBold(false);
+    font.setItalic(false);
+    font.setWeight(50);
+    ui->textEdit->setFont(font);
+    ui->textEdit->setStyleSheet(QStringLiteral("font: 12pt \"Nyala\";"));
 }
 
 CodeEditor::~CodeEditor()
@@ -158,9 +166,7 @@ void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
     pathToSelectedItem = folderPath + pathToSelectedItem;
     QFile file(pathToSelectedItem);
     QByteArray data;
-    if (!file.open(QIODevice::ReadOnly))
-        return;
-    data = file.readAll();
-    QString fileText = QString(data);
-    ui->textEdit->setText(fileText);
+    highlighter = new Highlighter(ui->textEdit->document());
+    if (file.open(QFile::ReadOnly | QFile::Text))
+        ui->textEdit->setPlainText(file.readAll());
 }

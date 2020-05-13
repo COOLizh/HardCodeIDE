@@ -10,6 +10,7 @@
 #include "textedit.h"
 #include <QAbstractItemModel>
 #include <QStringListModel>
+#include <QFileDialog>
 
 namespace Ui {
 class CodeEditor;
@@ -29,9 +30,15 @@ public slots:
 private slots:
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
+    void on_save_button_clicked();
+
+    void on_update_tree_button_clicked();
+
+    void on_open_project_button_clicked();
+
 private:
     Ui::CodeEditor *ui;
-    QString folderPath, parentPath;
+    QString folderPath, parentPath, currentFilePath;
     QTreeWidgetItem *parent;
     QTermWidget *console;
     Highlighter *highlighter;

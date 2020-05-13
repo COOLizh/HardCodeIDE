@@ -70,7 +70,6 @@ void TextEdit::focusInEvent(QFocusEvent *e)
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
     if (c && c->popup()->isVisible()) {
-        // The following keys are forwarded by the completer to the widget
        switch (e->key()) {
        case Qt::Key_Enter:
        case Qt::Key_Return:

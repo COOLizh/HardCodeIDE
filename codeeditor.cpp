@@ -22,6 +22,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     completer->setWrapAround(false);
     completingTextEdit->setCompleter(completer);
     completingTextEdit->setGeometry(240, 20, 1681, 791);
+    completingTextEdit->setEnabled(false);
 
     QIcon::setThemeName(QStringLiteral("oxygen"));
     console = new QTermWidget(0, this);
@@ -29,7 +30,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     font.setFamily(QStringLiteral("Monospace"));
     font.setPointSize(12);
     console->setTerminalFont(font);
-    console->setScrollBarPosition(QTermWidget::ScrollBarRight);
+    console->setScrollBarPosition(QTermWidget::ScrollBarLeft);
     const auto arguments = QApplication::arguments();
     for (const QString& arg : arguments)
     {
@@ -162,6 +163,7 @@ int CodeEditor::checkFileType(QString name)
 
 void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
+    ui->label->setText(item->text(column));
     QString pathToSelectedItem = item->text(column);
     pathToSelectedItem = "/" + pathToSelectedItem;
     while(item->parent() != nullptr)
@@ -174,13 +176,16 @@ void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
     }
     pathToSelectedItem = folderPath + pathToSelectedItem;
     QFile file(pathToSelectedItem);
-    QByteArray data;
     QTextOption textOptions = completingTextEdit->document()->defaultTextOption();
     textOptions.setTabStop(20);
     completingTextEdit->document()->setDefaultTextOption(textOptions);
     highlighter = new Highlighter(completingTextEdit->document());
     if (file.open(QFile::ReadOnly | QFile::Text))
+    {
         completingTextEdit->setPlainText(file.readAll());
+        currentFilePath = pathToSelectedItem;
+        completingTextEdit->setEnabled(true);
+    }
 }
 
 QAbstractItemModel *CodeEditor::modelFromFile(const QString& fileName)
@@ -204,4 +209,38 @@ QAbstractItemModel *CodeEditor::modelFromFile(const QString& fileName)
     QGuiApplication::restoreOverrideCursor();
 #endif
     return new QStringListModel(words, completer);
+}
+
+
+void CodeEditor::on_save_button_clicked()
+{
+    QString str1 = completingTextEdit->toPlainText();
+    QByteArray ba = str1.toLocal8Bit();
+    const char *c_str2 = ba.data();
+    QFile file(currentFilePath);
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::WriteOnly)) {
+        file.write(c_str2);
+        file.close();
+    }
+}
+
+void CodeEditor::on_update_tree_button_clicked()
+{
+    ui->treeWidget->clear();
+    createDirTree(folderPath);
+}
+
+void CodeEditor::on_open_project_button_clicked()
+{
+    on_save_button_clicked();
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                "/home",
+                                                QFileDialog::ShowDirsOnly
+                                                | QFileDialog::DontResolveSymlinks);
+    if(!dir.isEmpty()){
+        ui->treeWidget->clear();
+        RecieveFolderPath(dir);
+    }
+
 }

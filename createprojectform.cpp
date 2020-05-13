@@ -38,8 +38,8 @@ void createProjectForm::on_create_project_button_clicked()
     }
     if(ui->folder_path_edit->text() == "" && ui->project_name_edit->text() == "")
     {
-      ui->error_label->setText("Not all data inputed");
-      return;
+        ui->error_label->setText("Not all data inputed");
+        return;
     }
 
     QDir dir1(ui->folder_path_edit->text());
@@ -49,7 +49,7 @@ void createProjectForm::on_create_project_button_clicked()
     QString tmp = dir + "/main.cpp";
     QFile file(tmp);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {
-        file.write("//*write your code ;)*//");
+        file.write("/*write your code ;)*/");
         file.close();
     }
     emit SendFolderPath(dir);

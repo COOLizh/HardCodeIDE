@@ -34,6 +34,9 @@ private:
     QString folderPath, parentPath;
     QTreeWidgetItem *parent;
     QTermWidget *console;
+    Highlighter *highlighter;
+    QCompleter *completer = nullptr;
+    TextEdit *completingTextEdit;
     QAbstractItemModel *modelFromFile(const QString& fileName);
     void addTreeRoot(QString name);
     void addTreeChild(QString name, QString currentPath, bool isDir);
@@ -41,9 +44,6 @@ private:
     int createParentOfParentPath(QString currentPath);
     int checkFileType(QString name);
     void createDirTree(QString dir);
-    Highlighter *highlighter;
-    QCompleter *completer = nullptr;
-    TextEdit *completingTextEdit;
 };
 
 #endif // CODEEDITOR_H

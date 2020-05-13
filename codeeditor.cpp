@@ -47,7 +47,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
     font.setWeight(50);
     completingTextEdit->setFont(font);
     completingTextEdit->setStyleSheet(QStringLiteral("font: 12pt \"Nyala\";"));
-
 }
 
 CodeEditor::~CodeEditor()

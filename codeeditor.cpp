@@ -175,6 +175,9 @@ void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
     pathToSelectedItem = folderPath + pathToSelectedItem;
     QFile file(pathToSelectedItem);
     QByteArray data;
+    QTextOption textOptions = completingTextEdit->document()->defaultTextOption();
+    textOptions.setTabStop(20);
+    completingTextEdit->document()->setDefaultTextOption(textOptions);
     highlighter = new Highlighter(completingTextEdit->document());
     if (file.open(QFile::ReadOnly | QFile::Text))
         completingTextEdit->setPlainText(file.readAll());

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLayout>
 #include "codeeditor.h"
+#include "createprojectform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,5 +29,6 @@ signals:
 private:
     Ui::MainWindow *ui;
     CodeEditor *codeEditorForm;
+    createProjectForm *newProjectForm;
 };
 #endif // MAINWINDOW_H

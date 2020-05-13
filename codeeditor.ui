@@ -28,16 +28,6 @@
     </property>
    </column>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>20</y>
-     <width>1681</width>
-     <height>791</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

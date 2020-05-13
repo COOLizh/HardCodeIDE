@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Start of work");
 
     codeEditorForm = new CodeEditor();
+    newProjectForm = new createProjectForm();
     connect(this, SIGNAL(SendFolderPath(QString)), codeEditorForm, SLOT(RecieveFolderPath(QString)));
 }
 
@@ -23,7 +24,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_create_project_button_clicked()
 {
-
+    newProjectForm->show();
+    this->close();
 }
 
 void MainWindow::on_open_project_button_clicked()

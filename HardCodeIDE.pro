@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     codeeditor.cpp \
+    createprojectform.cpp \
     highlighter.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,12 +25,14 @@ SOURCES += \
 
 HEADERS += \
     codeeditor.h \
+    createprojectform.h \
     highlighter.h \
     mainwindow.h \
     textedit.h
 
 FORMS += \
     codeeditor.ui \
+    createprojectform.ui \
     mainwindow.ui
 
 # Default rules for deployment.

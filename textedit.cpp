@@ -3,9 +3,7 @@
 TextEdit::TextEdit(QWidget *parent)
     : QTextEdit(parent)
 {
-    setPlainText(tr("This TextEdit provides autocompletions for words that have more than"
-                    " 3 characters. You can trigger autocompletion using ") +
-                    QKeySequence("Ctrl+E").toString(QKeySequence::NativeText));
+    setPlainText(tr("HardCodeIDE by COOLizh"));
 }
 
 TextEdit::~TextEdit()

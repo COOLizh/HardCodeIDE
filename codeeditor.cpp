@@ -21,8 +21,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setWrapAround(false);
     completingTextEdit->setCompleter(completer);
-    completingTextEdit->setGeometry(0, 0, 600, 600);
-
+    completingTextEdit->setGeometry(240, 20, 1681, 791);
 
     QIcon::setThemeName(QStringLiteral("oxygen"));
     console = new QTermWidget(0, this);
@@ -46,8 +45,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
     font.setBold(false);
     font.setItalic(false);
     font.setWeight(50);
-    ui->textEdit->setFont(font);
-    ui->textEdit->setStyleSheet(QStringLiteral("font: 12pt \"Nyala\";"));
+    completingTextEdit->setFont(font);
+    completingTextEdit->setStyleSheet(QStringLiteral("font: 12pt \"Nyala\";"));
 
 }
 
@@ -177,9 +176,9 @@ void CodeEditor::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
     pathToSelectedItem = folderPath + pathToSelectedItem;
     QFile file(pathToSelectedItem);
     QByteArray data;
-    highlighter = new Highlighter(ui->textEdit->document());
+    highlighter = new Highlighter(completingTextEdit->document());
     if (file.open(QFile::ReadOnly | QFile::Text))
-        ui->textEdit->setPlainText(file.readAll());
+        completingTextEdit->setPlainText(file.readAll());
 }
 
 QAbstractItemModel *CodeEditor::modelFromFile(const QString& fileName)
